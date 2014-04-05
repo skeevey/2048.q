@@ -1,12 +1,10 @@
 //2048
-// X - Exit
+// X or \\ - Exit
 // WASD
 
 SIZE:4;
 TARGET:2048;
 BLOCK_POOL:2 4;
-
-.state.universe:SIZE cut (SIZE*SIZE)#0;
 
 print:{show .state.universe};
 
@@ -60,6 +58,7 @@ lose:{-1@"Oops, you lose"; system"x .z.pi"};
 	};
 
 start:{
+	.state.universe:SIZE cut (SIZE*SIZE)#0;
 	generate_piece[];
 	print[];
 	};
