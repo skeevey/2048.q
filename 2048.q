@@ -24,7 +24,7 @@ generate_piece:{
 check_win:{any TARGET <= raze .state.universe};
 
 check_stuck:{
-	(any 0 = raze .state.universe) and
+	(all 0 <> raze .state.universe) and
 	(all raze all''[differ''[flip scan .state.universe]])};
 
 score:{sum raze .state.universe};
