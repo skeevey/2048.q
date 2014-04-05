@@ -43,8 +43,10 @@ move:{
 	if[check_stuck[]; lose[]];
 	};
 
-win:{-1@"Well done, you win";};
-lose:{-1@"Oops, you lose"; system"x .z.pi"};
+win:{
+	`.state.victorious set 1b;
+	-1@"Well done, you win";};
+lose:{-1@$[.state.victorious;"Stuck";"Oops, you lose"]; system"x .z.pi"};
 
 .z.pi:{
 	$[
@@ -58,7 +60,8 @@ lose:{-1@"Oops, you lose"; system"x .z.pi"};
 	};
 
 start:{
-	.state.universe:SIZE cut (SIZE*SIZE)#0;
+	`.state.universe set SIZE cut (SIZE*SIZE)#0;
+	`.state.victorious set 0b;
 	generate_piece[];
 	print[];
 	};
