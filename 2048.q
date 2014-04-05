@@ -44,8 +44,9 @@ move:{
 	};
 
 win:{
-	`.state.victorious set 1b;
-	-1@"Well done, you win";};
+	if[not .state.victorious;
+		`.state.victorious set 1b;
+		-1@"Well done, you win";]};
 lose:{-1@$[.state.victorious;"Stuck";"Oops, you lose"]; system"x .z.pi"};
 
 .z.pi:{
