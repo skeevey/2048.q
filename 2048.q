@@ -4,7 +4,7 @@
 
 SIZE:4;
 TARGET:2048;
-BLOCK_POOL:2 4;
+BLOCK_POOL:2 2 2 2 2 2 2 2 2 4;
 
 print:{show .state.universe};
 
