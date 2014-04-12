@@ -5,6 +5,14 @@
 SIZE:4;
 TARGET:2048;
 BLOCK_POOL:2 2 2 2 2 2 2 2 2 4;
+HELP_MESSAGE:"
+	2048.q - Combine blocks to reach 2048
+
+	Controls:
+	W - up
+	A - left
+	S - down
+	D - right\n";
 
 print:{show .state.universe};
 
@@ -64,6 +72,7 @@ start:{
 	`.state.universe set SIZE cut (SIZE*SIZE)#0;
 	`.state.victorious set 0b;
 	system"S ",-5 sublist string `int$.z.t;
+	-1@HELP_MESSAGE;
 	generate_piece[];
 	print[];
 	};
