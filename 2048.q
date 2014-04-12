@@ -63,6 +63,7 @@ lose:{-1@$[.state.victorious;"Stuck";"Oops, you lose"]; system"x .z.pi"};
 start:{
 	`.state.universe set SIZE cut (SIZE*SIZE)#0;
 	`.state.victorious set 0b;
+	system"S ",-5 sublist string `int$.z.t;
 	generate_piece[];
 	print[];
 	};
