@@ -37,14 +37,15 @@ check_stuck:{
 
 score:{sum raze .state.universe};
 
+push_board:(!) . flip (
+	("U"; {flip reverse each push_row each reverse each flip x});
+	("D"; {flip push_row each flip x});
+	("L"; {reverse each push_row each reverse each x});
+	("R"; {push_row each x})
+	);
+
 move:{
-	d:(!) . flip (
-		("U"; {flip reverse each push_row each reverse each flip x});
-		("D"; {flip push_row each flip x});
-		("L"; {reverse each push_row each reverse each x});
-		("R"; {push_row each x})
-		);
-	`.state.universe set d[x] .state.universe;
+	`.state.universe set push_board[x] .state.universe;
 	generate_piece[];
 	print[];
 	if[check_win[];   win[]];
