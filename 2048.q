@@ -21,6 +21,13 @@ push_row:{
 	X:raze (sum')each reverse each 2 cut/: reverse each (where differ X) cut X;
 	(neg SIZE)#(SIZE#0),X where not 0 = X};
 
+push_board:(!) . flip (
+	("U"; {flip reverse each push_row each reverse each flip x});
+	("D"; {flip push_row each flip x});
+	("L"; {reverse each push_row each reverse each x});
+	("R"; {push_row each x})
+	);
+
 generate_piece:{
 		blanks:where each 0 = .state.universe;
 		r:rand where not 0 = count each blanks;
@@ -36,13 +43,6 @@ check_stuck:{
 	(all raze all''[differ''[flip scan .state.universe]])};
 
 score:{sum raze .state.universe};
-
-push_board:(!) . flip (
-	("U"; {flip reverse each push_row each reverse each flip x});
-	("D"; {flip push_row each flip x});
-	("L"; {reverse each push_row each reverse each x});
-	("R"; {push_row each x})
-	);
 
 move:{
 	`.state.universe set push_board[x] .state.universe;
