@@ -29,12 +29,12 @@ push_board:(!) . flip (
 	);
 
 generate_piece:{
-		blanks:where each 0 = .state.universe;
-		r:rand where not 0 = count each blanks;
-		if[null r;:0N];
-		c:rand blanks r;
-		.state.universe[r;c]:rand BLOCK_POOL;
-		};
+	blanks:where each 0 = .state.universe;
+	r:rand where not 0 = count each blanks;
+	if[null r;:0N];
+	c:rand blanks r;
+	.state.universe[r;c]:rand BLOCK_POOL;
+	};
 
 check_win:{any TARGET <= raze .state.universe};
 
