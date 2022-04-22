@@ -14,7 +14,10 @@ HELP_MESSAGE:"
 	S - down
 	D - right\n";
 
-print:{show .state.universe};
+print:{
+	-1@("Moves: ", (-6$string .state.moves), " Score: ", -6$string .state.score);
+	show .state.universe
+	};
 
 push_row:{
 	X:x where not 0 = x;
@@ -42,11 +45,29 @@ check_stuck:{
 	(all 0 <> raze .state.universe) and
 	(all raze all''[differ''[flip scan .state.universe]])};
 
-score:{sum raze .state.universe};
+refresh_stats:{
+	.state.moves +: 1;
+	.state.score +: score_board[x] .state.multiverse; 
+	};
+
+score:{sum raze .state.universe};  
+score_row:{
+	X:x where not 0 = x;
+	({$[2 = count x;sum x;0]}')each reverse each 2 cut/: reverse each (where differ X) cut X
+	};
+score_board:(!) . flip (
+	("U"; {sum (raze/) score_row each reverse each flip x});
+	("D"; {sum (raze/) score_row each flip x});
+	("L"; {sum (raze/) score_row each reverse each x});
+	("R"; {sum (raze/) score_row each x})
+	);
+
 
 move:{
+	`.state.multiverse set .state.universe;
 	`.state.universe set push_board[x] .state.universe;
-	generate_piece[];
+	$[not .state.multiverse ~ .state.universe;  [refresh_stats[x]; generate_piece[]]; 
+		[]];
 	print[];
 	if[check_win[];   win[]];
 	if[check_stuck[]; lose[]];
@@ -66,16 +87,30 @@ lose:{-1@$[.state.victorious;"Stuck";"Oops, you lose"]; system"x .z.pi"};
 		x like "[aA]*"; [move "L"];
 		x like "[sS]*"; [move "D"];
 		x like "[dD]*"; [move "R"];
-		[]]
+		[] ]
 	};
 
 start:{
 	`.state.universe set SIZE cut (SIZE*SIZE)#0;
 	`.state.victorious set 0b;
+	`.state.moves set 0j;
+	`.state.score set 0j;
 	system"S ",-5 sublist string `int$.z.t;
 	-1@HELP_MESSAGE;
 	generate_piece[];
+	`.state.multiverse set .state.universe;
 	print[];
 	};
 
+test:{
+	//`.state.universe set (2 4 8 16;4 8 16 2;0 0 0 0;0 0 0 0); // test no_update
+	//`.state.universe set (2 4 8 16;2 4 8 32;2 4 0 0;2 0 8 0); // test score_update
+	`.state.universe set (2 0 0 0;2 0 0 0;2 0 0 0;0 0 0 0); // test no_update
+	print[];
+	show("attempt moving up");
+	move "U";  // invalid move, nothing should happen
+	};
+
+
 start[];
+//test[];
